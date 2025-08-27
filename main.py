@@ -13,7 +13,7 @@ st.set_page_config(page_title="Dashboard Longview", layout="wide")
 
 
 from utils import BASE_URL_API, CLIENT_SECRET,CLIENT_ID
-
+from aloc import tela_alocacao
 
 # ==================================================
 # ESTADO E HELPERS
@@ -139,55 +139,7 @@ def tela_menu():
 # ---------------------------
 # Tela 1: Alocação
 # ---------------------------
-def tela_alocacao():
-    st.header("📊 Alocação por Classe de Ativo")
 
-    if not token_valido():
-        st.warning("Faça login para consultar os dados.")
-        return
-
-    try:
-        # >>>>>> AQUI VOCÊ USA O MESMO ENDPOINT BASE <<<<<<
-        # Exemplo: rota de posições; ajuste conforme seu backend
-        url = f"{BASE_URL_API.rstrip('/')}/positions/get"
-        resp = requests.get(url, headers=st.session_state.headers, timeout=30)
-        resp.raise_for_status()
-        data = resp.json()
-        df = pd.DataFrame(data)
-    except Exception as e:
-        st.error(f"Erro ao buscar posições: {e}")
-        return
-
-    if df.empty:
-        st.info("Nenhuma posição encontrada para a data-base selecionada.")
-        return
-
-    # Pizza por classe (você pode trocar para plotly pie se quiser)
-    if {"classe", "vlr_financeiro"}.issubset(df.columns):
-        agg = df.groupby("classe", as_index=False)["vlr_financeiro"].sum()
-        st.bar_chart(agg.set_index("classe"))  # placeholder simples
-
-    # Drilldown: tabela por ativo
-    st.subheader("Detalhe por Ativo")
-    cols_show = [c for c in ["ativo", "classe", "vlr_financeiro", "pct_carteira"] if c in df.columns]
-    st.dataframe(df[cols_show] if cols_show else df)
-
-    # Métricas (placeholders – calcule de verdade quando plugar)
-    st.subheader("Métricas de Gestão (exemplo)")
-    c1, c2, c3 = st.columns(3)
-    c1.metric("Exposição Bruta Ações Brasil", "—")
-    c2.metric("Exposição Líquida Ações Brasil", "—")
-    c3.metric("Hedges/Alavancagens", "—")
-
-    c4, c5, c6 = st.columns(3)
-    c4.metric("Exposição Bruta Ações Globais", "—")
-    c5.metric("Exposição Líquida Ações Globais", "—")
-    c6.metric("Hedges Alavancagens", "—")
-
-    c7, c8, c9 = st.columns(3)
-    c7.metric("Exposição em Dólar Bruta", "—")
-    c8.metric("Exposição Líquida em Dólar (e+g)", "—")
-    c9.metric("Nível de Enquadramento RV", "—")
 
 # ---------------------------
 # Tela 2: Simulação
