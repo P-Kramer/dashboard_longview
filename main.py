@@ -14,6 +14,7 @@ st.set_page_config(page_title="Dashboard Longview", layout="wide")
 
 from utils import BASE_URL_API, CLIENT_SECRET,CLIENT_ID
 from aloc import tela_alocacao
+from simul import tela_simulacao
 
 # ==================================================
 # ESTADO E HELPERS
@@ -136,25 +137,6 @@ def tela_menu():
     elif op.startswith("Tela 3"):
         tela_performance()
 
-# ---------------------------
-# Tela 1: Alocação
-# ---------------------------
-
-
-# ---------------------------
-# Tela 2: Simulação
-# ---------------------------
-def tela_simulacao():
-    st.header("🧮 Simulação de Cenários")
-    st.write("Simule compra/venda e veja impacto nas métricas.")
-
-    # Placeholders
-    ativo = st.text_input("Ativo (ticker ou nome)")
-    ajuste = st.number_input("Ajuste (positivo=compra, negativo=venda)", value=0.0, step=1000.0)
-
-    if st.button("Aplicar Simulação"):
-        # Aqui você duplicaria o DF base, aplicaria o ajuste e recalcularia métricas
-        st.success(f"Simulação aplicada para {ativo} no valor {ajuste:,.2f}")
 
 # ---------------------------
 # Tela 3: Performance
