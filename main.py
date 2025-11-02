@@ -15,6 +15,7 @@ st.set_page_config(page_title="Dashboard Longview", layout="wide")
 from utils import BASE_URL_API, CLIENT_SECRET,CLIENT_ID
 from aloc import tela_alocacao
 from simul import tela_simulacao
+from perform import tela_performance
 
 # ==================================================
 # ESTADO E HELPERS
@@ -138,18 +139,7 @@ def tela_menu():
         tela_performance()
 
 
-# ---------------------------
-# Tela 3: Performance
-# ---------------------------
-def tela_performance():
-    st.header("📈 Performance da Carteira")
-    st.write("Retornos vs Benchmarks, atribuição e volatilidade.")
 
-    # Placeholder até plugar o endpoint real
-    st.line_chart(pd.DataFrame({
-        "Carteira": [1.00, 1.02, 1.05, 1.03, 1.08],
-        "CDI":      [1.00, 1.01, 1.015, 1.02, 1.025],
-    }))
 
 # ==================================================
 # APP (roteamento)
